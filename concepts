@@ -1,0 +1,30 @@
+Utiliza-se a funçao de agregação (SUM, MAX, MIN, AVG) em um numero escalar por colunas com GROUP BY
+
+Caso não seja especificado o GROUP BY, o SQL vai apontar um erro de função agregada:
+
+SELECT codigo_loja,
+		MAX (valor_unitario) AS valor_unitario_maximo
+	FROM venda
+
+Erro --> Msg 8120, Level 16, State 1, Line 1
+Column 'venda.codigo_loja' is invalid in the select list because it is not contained in either an aggregate function or the GROUP BY clause.
+
+Então, ao inserir o GROUP BY na sequencia, o problema é resolvido:
+
+SELECT codigo_loja,
+		MAX (valor_unitario) AS valor_unitario_maximo
+	FROM venda
+	GROUP BY codigo_loja
+
+---------------------------------------------------------------
+
+  SELECT	codigo_loja,
+		matricula_vendedor,
+		MAX (valor_unitario) AS valor_unitario_maximo
+	FROM venda
+	GROUP BY	codigo_loja,
+				matricula_vendedor
+
+A interpretação do código acima é feita da seguinte forma:
+
+Selecione na coluna codigo_loja e na coluna matricula_vendedor da planilha venda, o valor máximo do valor unitario e agrupe por código_loja e matricula_vendedor.
